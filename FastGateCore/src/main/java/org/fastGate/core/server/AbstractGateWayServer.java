@@ -5,7 +5,6 @@ import org.fastGate.core.GateWayServerContext;
 import org.fastGate.core.GateWayServerStartException;
 import org.fastGate.core.GateWayServerStopException;
 
-import java.util.concurrent.atomic.AtomicInteger;
 
 
 public abstract class AbstractGateWayServer implements GateWayServer {
