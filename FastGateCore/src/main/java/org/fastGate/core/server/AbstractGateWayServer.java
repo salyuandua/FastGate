@@ -4,7 +4,12 @@ import org.fastGate.core.GateWayServer;
 import org.fastGate.core.GateWayServerContext;
 import org.fastGate.core.GateWayServerStartException;
 import org.fastGate.core.GateWayServerStopException;
+import org.fastGate.core.annotation.GateWayConfigure;
 
+import java.io.File;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 
 public abstract class AbstractGateWayServer implements GateWayServer {
@@ -34,8 +39,77 @@ public abstract class AbstractGateWayServer implements GateWayServer {
 
 
     private void loadConfigureFromClassPath(){
+        String rootPackage=bootStrapClz.getPackage().getName();
+        bootStrapClz.getClassLoader();
 
 
+
+    }
+
+    private void doLoadConfigureClass(Class gateWayConfigureClz,GateWayConfigure gateWayConfigure){
+        try {
+            //check if no non-parameter constructor
+            Constructor[] constructors =gateWayConfigureClz.getDeclaredConstructors();
+            Object gateWayConfigureObj=null;
+            for (Constructor constructor:constructors){
+                if(constructor.getParameterCount()==0) gateWayConfigureObj=constructor.newInstance();
+            }
+            if (gateWayConfigureObj==null) throw new GateWayServerStartException();
+
+            Method[] methods=gateWayConfigureClz.getDeclaredMethods();
+
+            for (Method method:methods){
+                method.getReturnType();
+
+            }
+
+
+            //Object gateWayConfigureObj= gateWayConfigureClz.newInstance();
+
+
+
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (GateWayServerStartException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+
+    private void loadConfigureClass(File classFile,String classPath){
+        if (classFile.isFile()){
+            if (classPath.endsWith(CLASS_SUFFIX)){
+                try {
+                    Class candidateClz= bootStrapClz.getClassLoader().loadClass(classPath.substring(0,classPath.lastIndexOf('.')));
+                    Object gateWayConfigureAnnotationObj=  candidateClz.getAnnotation(GateWayConfigure.class);
+                    if (gateWayConfigureAnnotationObj!=null) {
+                        GateWayConfigure gateWayConfigure=(GateWayConfigure) gateWayConfigureAnnotationObj;
+
+
+
+                    }
+
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+
+
+
+        }
+
+        if (classFile.isDirectory()){
+            for (File f:classFile.listFiles()){
+                loadConfigureClass(f,classPath+"."+f.getName());
+            }
+
+        }
 
 
     }
@@ -65,7 +139,7 @@ public abstract class AbstractGateWayServer implements GateWayServer {
     }
 
     public int getServerState(){
-        return new Integer(serverState);
+        return serverState;
     }
 
 

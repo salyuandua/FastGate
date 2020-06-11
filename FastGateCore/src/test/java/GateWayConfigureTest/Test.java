@@ -1,8 +1,7 @@
-package org.fastGate.core;
+package GateWayConfigureTest;
 
 
 import org.fastGate.core.annotation.GateWayConfigure;
-import org.fastGate.core.annotation.GateWayEndpoint;
 
 import java.io.File;
 
@@ -32,12 +31,8 @@ public class Test {
         if (file.isFile()){
             System.out.println(clzPath);
              Class fileClz= clz.getClassLoader().loadClass(clzPath.substring(0,clzPath.lastIndexOf('.')) );
-            GateWayConfigure o= (GateWayConfigure) fileClz.getAnnotation(GateWayConfigure.class);
-
-            if (o!=null){
-                System.out.println(o);
-
-            }
+            Object o=fileClz.getAnnotation(GateWayConfigure.class);
+            
             return;
         }
         if (file.isDirectory()){
