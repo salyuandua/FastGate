@@ -5,6 +5,7 @@ import org.fastGate.core.GateWayServerContext;
 import org.fastGate.core.GateWayServerStartException;
 import org.fastGate.core.GateWayServerStopException;
 import org.fastGate.core.annotation.GateWayConfigure;
+import org.fastGate.core.configure.Router;
 
 import java.io.File;
 import java.lang.reflect.Constructor;
@@ -54,12 +55,17 @@ public abstract class AbstractGateWayServer implements GateWayServer {
             for (Constructor constructor:constructors){
                 if(constructor.getParameterCount()==0) gateWayConfigureObj=constructor.newInstance();
             }
-            if (gateWayConfigureObj==null) throw new GateWayServerStartException();
+            if (gateWayConfigureObj==null) throw new GateWayServerStartException("No default constructor");
 
             Method[] methods=gateWayConfigureClz.getDeclaredMethods();
 
             for (Method method:methods){
-                method.getReturnType();
+                if (method.getReturnType().equals(Router.class)){//user configure router
+                   if (method.getParameterCount()>0) throw new GateWayServerStartException("Should not have any parameter");
+                   Router router=(Router) method.invoke(gateWayConfigureObj);
+
+
+                }
 
             }
 
@@ -118,16 +124,20 @@ public abstract class AbstractGateWayServer implements GateWayServer {
 
     protected abstract GateWayServerContext createServerContext();
 
+    protected abstract void startInternalServer();
+
     @Override
     public void start() throws GateWayServerStartException {
         synchronized (this){
-            if (serverState!=GateWayServer.TERMINATED) throw new GateWayServerStartException();
+            if (serverState!=GateWayServer.TERMINATED) throw new GateWayServerStartException("");
             serverState=GateWayServer.STARTING;
 
             serverContext=createServerContext();
 
             loadConfigureFromClassPath();
 
+
+            startInternalServer();
 
 
         }
