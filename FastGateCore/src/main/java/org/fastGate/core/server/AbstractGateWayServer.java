@@ -5,6 +5,7 @@ import org.fastGate.core.GateWayServerContext;
 import org.fastGate.core.GateWayServerStartException;
 import org.fastGate.core.GateWayServerStopException;
 import org.fastGate.core.annotation.GateWayConfigure;
+import org.fastGate.core.configure.PropertyConfigure;
 import org.fastGate.core.configure.Router;
 
 import java.io.File;
@@ -47,7 +48,8 @@ public abstract class AbstractGateWayServer implements GateWayServer {
 
     }
 
-    private void doLoadConfigureClass(Class gateWayConfigureClz,GateWayConfigure gateWayConfigure){
+    //process one class that marked with @GateWayConfigure
+    private void doLoadConfigureClass(Class gateWayConfigureClz){
         try {
             //check if no non-parameter constructor
             Constructor[] constructors =gateWayConfigureClz.getDeclaredConstructors();
@@ -65,15 +67,15 @@ public abstract class AbstractGateWayServer implements GateWayServer {
                    Router router=(Router) method.invoke(gateWayConfigureObj);
 
 
+                }else if(method.getReturnType().equals(PropertyConfigure.class)){
+
+
+
+                }else if(method.getReturnType().equals(GateWayFilter.class)){
+
                 }
 
             }
-
-
-            //Object gateWayConfigureObj= gateWayConfigureClz.newInstance();
-
-
-
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
