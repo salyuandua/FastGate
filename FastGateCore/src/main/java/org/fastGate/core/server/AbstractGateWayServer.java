@@ -55,7 +55,10 @@ public abstract class AbstractGateWayServer implements GateWayServer {
             Constructor[] constructors =gateWayConfigureClz.getDeclaredConstructors();
             Object gateWayConfigureObj=null;
             for (Constructor constructor:constructors){
-                if(constructor.getParameterCount()==0) gateWayConfigureObj=constructor.newInstance();
+                if(constructor.getParameterCount()==0) {
+                    gateWayConfigureObj=constructor.newInstance();
+                    break;
+                }
             }
             if (gateWayConfigureObj==null) throw new GateWayServerStartException("No default constructor");
 
