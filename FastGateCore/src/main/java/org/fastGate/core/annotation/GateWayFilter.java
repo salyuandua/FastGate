@@ -6,4 +6,8 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface GateWayFilter {
+
+    public String urlPattern();
+
+    public int order() default org.fastGate.core.server.GateWayFilter.MIN_ORDER;
 }
