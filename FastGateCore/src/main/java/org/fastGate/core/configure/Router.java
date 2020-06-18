@@ -7,20 +7,20 @@ import java.util.Set;
 
 public class Router {
 
-    private String sourceUrl;
+    private String patternUrl;
 
     private Set<String> targetUrls;
 
     public static class Builder{
-        private String sourceUrl;
+        private String patternUrl;
 
         private Set<String> targetUrls;
 
-        public Builder(String sourceUrl,String... targetUrls){
-            Objects.requireNonNull(sourceUrl);
+        public Builder(String patternUrl,String... targetUrls){
+            Objects.requireNonNull(patternUrl);
             Objects.requireNonNull(targetUrls);
             if (targetUrls.length==0) throw new IllegalArgumentException("At least one target URL");
-            this.sourceUrl=sourceUrl;
+            this.patternUrl=patternUrl;
             this.targetUrls=new HashSet<String>();
             Collections.addAll(this.targetUrls, targetUrls);
 
@@ -32,22 +32,17 @@ public class Router {
         }
 
     }
-
-
-
-
-
     private Router(Builder builder){
-        this.sourceUrl=builder.sourceUrl;
+        this.patternUrl=builder.patternUrl;
         this.targetUrls=builder.targetUrls;
     }
 
     public String getSourceUrl() {
-        return sourceUrl;
+        return patternUrl;
     }
 
     public void setSourceUrl(String sourceUrl) {
-        this.sourceUrl = sourceUrl;
+        this.patternUrl = sourceUrl;
     }
 
     public Set<String> getTargetUrls() {
