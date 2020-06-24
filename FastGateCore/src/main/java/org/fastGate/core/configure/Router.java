@@ -37,12 +37,12 @@ public class Router {
         this.targetUrls=builder.targetUrls;
     }
 
-    public String getSourceUrl() {
+    public String getPatternUrl() {
         return patternUrl;
     }
 
-    public void setSourceUrl(String sourceUrl) {
-        this.patternUrl = sourceUrl;
+    public void setPatternUrl(String patternUrl) {
+        this.patternUrl = patternUrl;
     }
 
     public Set<String> getTargetUrls() {

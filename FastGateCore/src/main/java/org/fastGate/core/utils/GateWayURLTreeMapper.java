@@ -59,15 +59,20 @@ public class GateWayURLTreeMapper implements GateWayURLMapper{
 
     private void constructMappingTree(){
         routers.forEach(router -> {
-
+            String patternUrl=router.getPatternUrl();
+            searchAndPutRouter(root,router,patternUrl);
 
 
         });
 
     }
 
-    private URLTreeNode searchAndPutRouter(URLTreeNode node,Router router,String currentUrl){
+    private URLTreeNode searchAndPutRouter(URLTreeNode node,Router router,String currentPatternUrl){
+
+
+
         if (node==null){
+            node=new URLTreeNode();
 
         }
 
