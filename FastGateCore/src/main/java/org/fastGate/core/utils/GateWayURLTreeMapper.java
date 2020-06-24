@@ -6,6 +6,7 @@ import org.fastGate.core.server.GateWayFilterDefinition;
 import org.fastGate.core.server.GateWayHttpRequest;
 import org.fastGate.core.server.GateWayHttpResponse;
 
+import java.util.LinkedList;
 import java.util.Objects;
 import java.util.Set;
 import java.util.SortedSet;
@@ -60,16 +61,17 @@ public class GateWayURLTreeMapper implements GateWayURLMapper{
     private void constructMappingTree(){
         routers.forEach(router -> {
             String patternUrl=router.getPatternUrl();
-            searchAndPutRouter(root,router,patternUrl);
+            LinkedList<UrlPatternEntry> urlPatternEntries=URLUtils.parsePatternUrl(patternUrl);
+            searchAndPutRouter(root,router,urlPatternEntries);
 
 
         });
 
     }
 
-    private URLTreeNode searchAndPutRouter(URLTreeNode node,Router router,String currentPatternUrl){
-
-
+    private URLTreeNode searchAndPutRouter(URLTreeNode node,Router router,LinkedList<UrlPatternEntry> urlPatternEntries){
+        if (urlPatternEntries.size()==0) return node;
+        UrlPatternEntry currentUrlPattern= urlPatternEntries.removeFirst();
 
         if (node==null){
             node=new URLTreeNode();
