@@ -14,7 +14,7 @@ public class GateWayZooKeeperRegistry implements GateWayRegistry{
     private PropertyConfigure registryConfigure;
 
     public GateWayZooKeeperRegistry(PropertyConfigure registryConfigure){
-        String hostUrl=registryConfigure.getProperty(PropertyConfigure.ZOOKEEPER_HOST_URLS);
+       // String hostUrl=registryConfigure.getProperty(PropertyConfigure.ZOOKEEPER_HOST_URLS);
 
 
     }
@@ -22,13 +22,18 @@ public class GateWayZooKeeperRegistry implements GateWayRegistry{
 
 
     @Override
-    public void register(PropertyConfigure registryConfigure) throws GateWayRegisterException {
+    public void register() throws GateWayRegisterException {
 
     }
 
     @Override
     public void pull() throws GateWayRegisterException {
 
+    }
+
+    @Override
+    public PropertyConfigure getConfigure() {
+        return registryConfigure;
     }
 
 

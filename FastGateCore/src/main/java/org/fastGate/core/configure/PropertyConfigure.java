@@ -7,13 +7,12 @@ import java.util.Map;
 
 
 public final class PropertyConfigure {
-    public static final String ZOOKEEPER_HOST_URLS="zookeeper.host";
+    public static final String APPLICATION_ID="application.id";
+    public static final String APPLICATION_PORT="application.port";
 
-    public static final String ZOOKEEPER_ROOT_NODE_NAME="zookeeper.root";
-
-
-
-
+    public static final String REGISTRY_TYPE="registry.type";
+    public static final String REGISTRY_URL="registry.url";
+    public static final String REGISTRY_CLUSTER="registry.cluster";
 
 
     private Map<String,String> propertyMap=new HashMap<>();

@@ -14,12 +14,12 @@ public interface GateWayRegistry {
 
     /**
      * Should be executed while the gateway server bootstrapping.
-     * @param registryConfigure
+     *
      * @throws GateWayRegisterException
      */
-    public void register(PropertyConfigure registryConfigure) throws GateWayRegisterException;
+    public void register() throws GateWayRegisterException;
 
     public void pull() throws GateWayRegisterException;
 
-
+    public PropertyConfigure getConfigure();
 }
