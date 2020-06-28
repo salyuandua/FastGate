@@ -7,6 +7,15 @@ import java.util.Map;
 
 
 public final class PropertyConfigure {
+    public static final String ZOOKEEPER_HOST_URLS="zookeeper.host";
+
+    public static final String ZOOKEEPER_ROOT_NODE_NAME="zookeeper.root";
+
+
+
+
+
+
     private Map<String,String> propertyMap=new HashMap<>();
 
     public String getProperty(String key){
