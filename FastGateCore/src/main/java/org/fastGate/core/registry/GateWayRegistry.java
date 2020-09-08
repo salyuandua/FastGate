@@ -13,11 +13,17 @@ import org.fastGate.core.configure.PropertyConfigure;
 public interface GateWayRegistry {
 
     /**
+     * Register current gateway service to registry
      * Should be executed while the gateway server bootstrapping.
      *
      * @throws GateWayRegisterException
      */
     public void register() throws GateWayRegisterException;
+
+    /**
+     * Pull other services' info from registry
+     * @throws GateWayRegisterException
+     */
 
     public void pull() throws GateWayRegisterException;
 

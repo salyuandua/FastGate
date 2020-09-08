@@ -14,6 +14,6 @@ import java.util.Set;
  */
 public interface LoadBalanceStrategy {
 
-    public void pick(GateWayHttpRequest request, Set<String> ips);
+    public String pick(GateWayHttpRequest request, Set<String> ips);
 
 }
