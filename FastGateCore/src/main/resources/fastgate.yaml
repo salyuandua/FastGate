@@ -1,0 +1,6 @@
+application:
+  id:
+  port:
+registry:
+  type:
+  url:

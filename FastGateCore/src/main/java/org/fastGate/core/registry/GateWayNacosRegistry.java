@@ -4,8 +4,6 @@ import com.alibaba.nacos.api.exception.NacosException;
 import com.alibaba.nacos.api.naming.NamingFactory;
 import com.alibaba.nacos.api.naming.NamingService;
 import org.fastGate.core.configure.PropertyConfigure;
-import org.fastGate.core.utils.RestTemplateUtils;
-import org.springframework.web.client.RestTemplate;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -33,6 +31,19 @@ public class GateWayNacosRegistry extends AbstractGateWayRegistry{
         }
     }
 
+    private com.alibaba.nacos.api.naming.pojo.Instance buildNacosInstance(Instance gatewayInstance,String serviceName){
+        com.alibaba.nacos.api.naming.pojo.Instance nacosInstance=new com.alibaba.nacos.api.naming.pojo.Instance();
+        nacosInstance.setServiceName(serviceName);
+        nacosInstance.setHealthy(true);
+        nacosInstance.setIp(gatewayInstance.getIp());
+        nacosInstance.setPort(gatewayInstance.getPort());
+        gatewayInstance.getMetaData().forEach((k,v)->{
+            nacosInstance.addMetadata(k,v);
+        });
+
+        return nacosInstance;
+    }
+
 
 
 
@@ -49,16 +60,18 @@ public class GateWayNacosRegistry extends AbstractGateWayRegistry{
             SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd :hh:mm:ss");
             String nowTimeStamp=dateFormat.format(new Date());
             instance.getMetaData().put(Instance.REGISTER_TIME,nowTimeStamp);
-
-        }catch (UnknownHostException e){
+            com.alibaba.nacos.api.naming.pojo.Instance nacosInstance=buildNacosInstance(instance,serviceName);
+            namingService.registerInstance(serviceName,nacosInstance);
+        }catch (UnknownHostException | NacosException e){
             throw new GateWayRegisterException();
         }
 
     }
 
     @Override
-    public void pull() throws GateWayRegisterException {
+    public synchronized void pull() throws GateWayRegisterException {
         //namingService.
+        //namingService.getAllInstances()
 
     }
 
